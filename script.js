@@ -627,75 +627,98 @@ $('response-submit').addEventListener('click', function () {
 });
 
 // =====================================================================
+// =====================================================================
 //  18. BACKGROUND MUSIC
 // =====================================================================
 let musicPlaying = false;
 let audioCtx = null;
+let loopTimeoutId = null;
+let isLooping = false;
+let loopCount = 0;
+const maxLoops = 200;
 
-function createMusic() {
-  if (audioCtx) return;
-  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+const notes = [
+  { freq: 523.25, dur: 0.5 }, // C5
+  { freq: 659.25, dur: 0.5 }, // E5
+  { freq: 783.99, dur: 0.75 }, // G5
+  { freq: 698.46, dur: 0.5 }, // F5
+  { freq: 659.25, dur: 0.5 }, // E5
+  { freq: 523.25, dur: 0.75 }, // C5
+  { freq: 587.33, dur: 0.5 }, // D5
+  { freq: 523.25, dur: 0.5 }, // C5
+  { freq: 440.00, dur: 0.75 }, // A4
+  { freq: 523.25, dur: 0.5 }, // C5
+  { freq: 587.33, dur: 0.5 }, // D5
+  { freq: 659.25, dur: 1.0 },  // E5
+];
 
-  // Simple romantic melody using oscillators
-  const notes = [
-    { freq: 523.25, dur: 0.5 }, // C5
-    { freq: 659.25, dur: 0.5 }, // E5
-    { freq: 783.99, dur: 0.75 }, // G5
-    { freq: 698.46, dur: 0.5 }, // F5
-    { freq: 659.25, dur: 0.5 }, // E5
-    { freq: 523.25, dur: 0.75 }, // C5
-    { freq: 587.33, dur: 0.5 }, // D5
-    { freq: 523.25, dur: 0.5 }, // C5
-    { freq: 440.00, dur: 0.75 }, // A4
-    { freq: 523.25, dur: 0.5 }, // C5
-    { freq: 587.33, dur: 0.5 }, // D5
-    { freq: 659.25, dur: 1.0 },  // E5
-  ];
+const totalDur = notes.reduce(function (s, n) { return s + n.dur; }, 0);
 
-  const totalDur = notes.reduce(function (s, n) { return s + n.dur; }, 0);
-  let loopCount = 0;
-  const maxLoops = 200;
-
-  function playLoop() {
-    if (!musicPlaying || loopCount >= maxLoops) return;
-    loopCount++;
-    let time = audioCtx.currentTime + 0.1;
-
-    notes.forEach(function (note) {
-      // Main oscillator
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = 'sine';
-      osc.frequency.value = note.freq;
-      gain.gain.setValueAtTime(0, time);
-      gain.gain.linearRampToValueAtTime(0.08, time + 0.05);
-      gain.gain.linearRampToValueAtTime(0.06, time + note.dur * 0.6);
-      gain.gain.linearRampToValueAtTime(0, time + note.dur);
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      osc.start(time);
-      osc.stop(time + note.dur);
-
-      // Soft harmony (fifth above, very quiet)
-      const osc2 = audioCtx.createOscillator();
-      const gain2 = audioCtx.createGain();
-      osc2.type = 'sine';
-      osc2.frequency.value = note.freq * 1.498;
-      gain2.gain.setValueAtTime(0, time);
-      gain2.gain.linearRampToValueAtTime(0.02, time + 0.05);
-      gain2.gain.linearRampToValueAtTime(0, time + note.dur);
-      osc2.connect(gain2);
-      gain2.connect(audioCtx.destination);
-      osc2.start(time);
-      osc2.stop(time + note.dur);
-
-      time += note.dur;
-    });
-
-    setTimeout(playLoop, totalDur * 1000 + 500);
+function playMelody() {
+  if (!musicPlaying || loopCount >= maxLoops || !audioCtx) {
+    isLooping = false;
+    return;
   }
+  isLooping = true;
+  loopCount++;
 
-  playLoop();
+  let time = audioCtx.currentTime + 0.1;
+
+  notes.forEach(function (note) {
+    // Main oscillator
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.value = note.freq;
+    gain.gain.setValueAtTime(0, time);
+    gain.gain.linearRampToValueAtTime(0.08, time + 0.05);
+    gain.gain.linearRampToValueAtTime(0.06, time + note.dur * 0.6);
+    gain.gain.linearRampToValueAtTime(0, time + note.dur);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start(time);
+    osc.stop(time + note.dur);
+
+    // Soft harmony (fifth above, very quiet)
+    const osc2 = audioCtx.createOscillator();
+    const gain2 = audioCtx.createGain();
+    osc2.type = 'sine';
+    osc2.frequency.value = note.freq * 1.498;
+    gain2.gain.setValueAtTime(0, time);
+    gain2.gain.linearRampToValueAtTime(0.02, time + 0.05);
+    gain2.gain.linearRampToValueAtTime(0, time + note.dur);
+    osc2.connect(gain2);
+    gain2.connect(audioCtx.destination);
+    osc2.start(time);
+    osc2.stop(time + note.dur);
+
+    time += note.dur;
+  });
+
+  loopTimeoutId = setTimeout(playMelody, totalDur * 1000 + 500);
+}
+
+function startMusic() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+  if (!isLooping) {
+    playMelody();
+  }
+}
+
+function stopMusic() {
+  if (audioCtx && audioCtx.state === 'running') {
+    audioCtx.suspend();
+  }
+  if (loopTimeoutId) {
+    clearTimeout(loopTimeoutId);
+    loopTimeoutId = null;
+  }
+  isLooping = false;
 }
 
 musicBtn.addEventListener('click', function () {
@@ -704,10 +727,9 @@ musicBtn.addEventListener('click', function () {
   musicBtn.textContent = musicPlaying ? '🎶' : '🎵';
 
   if (musicPlaying) {
-    createMusic();
-    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+    startMusic();
   } else {
-    if (audioCtx) audioCtx.suspend();
+    stopMusic();
   }
 });
 
