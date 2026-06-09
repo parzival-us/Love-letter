@@ -6,11 +6,11 @@
   <meta name="description" content="A romantic love letter — will you be mine?" />
   <title>Will You Be Mine? ❤️</title>
 
-  <!-- Google Font: Outfit -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
     rel="stylesheet"
   />
 
@@ -18,54 +18,160 @@
 </head>
 <body>
 
-  <!-- Starfield background canvas -->
+  <!-- ============ Background Layers ============ -->
   <canvas id="stars-canvas" aria-hidden="true"></canvas>
-
-  <!-- Mouse trail canvas -->
   <canvas id="trail-canvas" aria-hidden="true"></canvas>
-
-  <!-- Ambient floating hearts -->
+  <canvas id="fireworks-canvas" aria-hidden="true"></canvas>
   <div id="ambient-hearts" class="ambient-hearts" aria-hidden="true"></div>
-
-  <!-- Main Card -->
-  <div class="card-wrapper">
-    <main class="card">
-
-      <!-- Question View -->
-      <div id="question-view">
-        <div class="heart-icon" aria-hidden="true">💖</div>
-        <h1>Will you be mine?&nbsp;❤️</h1>
-        <p class="subtitle" id="subtitle"></p>
-
-        <div class="buttons">
-          <button id="btn-yes" class="btn btn-yes" type="button">Yes ❤️</button>
-          <button id="btn-no" class="btn btn-no" type="button">No 😭</button>
-        </div>
-
-        <div id="dodge-counter" class="dodge-counter">
-          Dodged: <span id="dodge-count">0</span> times
-        </div>
-      </div>
-
-      <!-- Success View -->
-      <div id="success-view" class="success-container">
-        <div class="success-emoji">🥳</div>
-        <h2>YAYYY ❤️</h2>
-        <p class="success-sub">You made my day! I'm the luckiest person alive 🥰</p>
-        <div class="success-hearts-row">
-          <span>💖</span>
-          <span>💗</span>
-          <span>💕</span>
-          <span>💘</span>
-          <span>💝</span>
-        </div>
-      </div>
-
-    </main>
-  </div>
-
-  <!-- Heart rain container -->
+  <div id="shooting-stars" aria-hidden="true"></div>
   <div id="heart-rain" class="heart-rain" aria-hidden="true"></div>
+
+  <!-- ============ Fixed UI Controls ============ -->
+
+  <!-- Theme Toggle -->
+  <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle theme">
+    🌙
+  </button>
+
+  <!-- Music Toggle -->
+  <button id="music-toggle" class="music-toggle" type="button" aria-label="Toggle music">
+    🎵
+  </button>
+
+  <!-- Scene Navigation Dots -->
+  <nav id="scene-nav" class="scene-nav" aria-label="Scene navigation">
+    <button class="scene-dot active" data-scene="question" aria-label="Question"></button>
+    <button class="scene-dot" data-scene="success" aria-label="Celebration" style="display:none"></button>
+    <button class="scene-dot" data-scene="love-letter" aria-label="Love letter" style="display:none"></button>
+    <button class="scene-dot" data-scene="gallery" aria-label="Memories" style="display:none"></button>
+    <button class="scene-dot" data-scene="countdown" aria-label="Countdown" style="display:none"></button>
+    <button class="scene-dot" data-scene="response" aria-label="Reply" style="display:none"></button>
+  </nav>
+
+  <!-- ============ SCENE 1: Cinematic Intro ============ -->
+  <section id="intro-scene" class="scene intro-scene">
+    <div class="intro-content">
+      <div class="intro-heart">💌</div>
+      <h1 class="intro-text">A message from my heart...</h1>
+      <p class="intro-sub">just for you</p>
+    </div>
+  </section>
+
+  <!-- ============ SCENE 2: The Question ============ -->
+  <section id="question-scene" class="scene question-scene" style="opacity:0; pointer-events:none;">
+    <div class="card-wrapper">
+      <main class="card">
+        <div id="question-view">
+          <div class="heart-icon" aria-hidden="true">💖</div>
+          <h1>Will you be mine?&nbsp;❤️</h1>
+          <p class="subtitle" id="subtitle"></p>
+
+          <div class="buttons">
+            <button id="btn-yes" class="btn btn-yes" type="button">Yes ❤️</button>
+            <button id="btn-no" class="btn btn-no" type="button">No 😭</button>
+          </div>
+
+          <div id="dodge-counter" class="dodge-counter">
+            Dodged: <span id="dodge-count">0</span> times
+          </div>
+        </div>
+      </main>
+    </div>
+  </section>
+
+  <!-- ============ SCENE 3: Success Celebration ============ -->
+  <section id="success-scene" class="scene success-scene" style="opacity:0; pointer-events:none;">
+    <div class="success-container" id="success-view">
+      <div class="success-emoji">🥳</div>
+      <h2>YAYYY ❤️</h2>
+      <p class="success-sub">You made my day! I'm the luckiest person alive 🥰</p>
+      <div class="success-hearts-row">
+        <span>💖</span><span>💗</span><span>💕</span><span>💘</span><span>💝</span>
+      </div>
+      <button class="btn letter-nav-btn" id="go-letter" type="button">Read my letter 💌</button>
+    </div>
+  </section>
+
+  <!-- ============ SCENE 4: Love Letter ============ -->
+  <section id="love-letter-scene" class="scene love-letter-scene" style="opacity:0; pointer-events:none;">
+    <div class="letter-container">
+      <div class="letter-card">
+        <h2 class="letter-header">My Dearest ❤️</h2>
+        <div class="letter-body" id="letter-body">
+          <p>From the moment you came into my life, everything changed. The stars seem brighter, the days feel warmer, and my heart beats a little faster every time I think of you.</p>
+          <p>You are my favorite notification, my best conversation, and the reason I smile at my phone like an idiot. 😊</p>
+          <p>Every moment with you feels like a scene from my favorite movie — except it's real, and it's better than anything I could have ever imagined.</p>
+          <p>I don't know what I did to deserve someone as amazing as you, but I promise to spend every day making sure you never regret choosing me.</p>
+          <p>You're not just my love — you're my best friend, my safe place, and my greatest adventure. 🌟</p>
+          <p>Thank you for being you. Thank you for choosing me. Thank you for making every ordinary day feel extraordinary.</p>
+        </div>
+        <p class="letter-signature">Forever & Always Yours 💕</p>
+        <button class="btn letter-nav-btn" id="go-gallery" type="button">See our memories 📸</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SCENE 5: Photo Gallery ============ -->
+  <section id="gallery-scene" class="scene gallery-scene" style="opacity:0; pointer-events:none;">
+    <div class="gallery-container">
+      <h2 class="gallery-header">Our Memories 📸</h2>
+      <p class="gallery-sub">Every moment with you is a treasure</p>
+      <div class="gallery-grid" id="gallery-grid">
+        <!-- Filled by JS with generated placeholder images -->
+      </div>
+      <button class="btn gallery-nav-btn" id="go-countdown" type="button">Our countdown ⏳</button>
+    </div>
+  </section>
+
+  <!-- ============ SCENE 6: Countdown Timer ============ -->
+  <section id="countdown-scene" class="scene countdown-scene" style="opacity:0; pointer-events:none;">
+    <div class="countdown-card">
+      <div class="countdown-emoji">⏳</div>
+      <h2 class="countdown-title">Counting Every Second</h2>
+      <p class="countdown-sub" id="countdown-label">Until our next special moment...</p>
+
+      <div class="countdown-display" id="countdown-display">
+        <div class="countdown-unit">
+          <span class="number" id="cd-days">00</span>
+          <span class="label">Days</span>
+        </div>
+        <div class="countdown-unit">
+          <span class="number" id="cd-hours">00</span>
+          <span class="label">Hours</span>
+        </div>
+        <div class="countdown-unit">
+          <span class="number" id="cd-mins">00</span>
+          <span class="label">Minutes</span>
+        </div>
+        <div class="countdown-unit">
+          <span class="number" id="cd-secs">00</span>
+          <span class="label">Seconds</span>
+        </div>
+      </div>
+
+      <p class="countdown-note">Since you said YES 💖</p>
+      <button class="btn countdown-nav-btn" id="go-response" type="button">Write me back 💬</button>
+    </div>
+  </section>
+
+  <!-- ============ SCENE 7: Response Input ============ -->
+  <section id="response-scene" class="scene response-scene" style="opacity:0; pointer-events:none;">
+    <div class="response-card">
+      <div id="response-form-view">
+        <div class="response-emoji">💬</div>
+        <h2 class="response-title">Say Something Back...</h2>
+        <p class="response-sub">I'd love to hear from you 🥰</p>
+        <textarea id="response-input" class="response-input" placeholder="Type your heart out..." rows="4"></textarea>
+        <button class="btn response-submit" id="response-submit" type="button">Send with love 💌</button>
+      </div>
+      <div id="response-thanks" class="response-thanks">
+        <div class="success-emoji">🥺💖</div>
+        <h2 class="response-title">Thank you, my love!</h2>
+        <p class="response-sub">Your words mean the world to me ✨</p>
+        <div class="response-message-display" id="response-message-display"></div>
+      </div>
+    </div>
+  </section>
 
   <script src="script.js"></script>
 </body>
