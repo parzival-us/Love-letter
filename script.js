@@ -473,12 +473,11 @@ btnYes.addEventListener('click', function (e) {
 
     // Celebration!
     startHeartRain();
-    createConfetti(60);
-    createSparkleBurst(window.innerWidth / 2, window.innerHeight / 2, 45);
-    window.startFireworks();
+    createConfetti(30);
+    createSparkleBurst(window.innerWidth / 2, window.innerHeight / 2, 25);
 
-    setTimeout(function () { createConfetti(40); }, 1200);
-    setTimeout(function () { createConfetti(25); }, 2500);
+    setTimeout(function () { createConfetti(20); }, 1200);
+    setTimeout(function () { createConfetti(15); }, 2500);
 
     // Start countdown
     startCountdown();
