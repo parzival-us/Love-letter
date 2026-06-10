@@ -413,22 +413,23 @@ function createConfetti(count) {
 // =====================================================================
 //  10. NO BUTTON DODGE
 // =====================================================================
-const dodgeMessages = [
-  '', '', '',
-  'Nice try 😏',
-  "You can't catch it!",
-  "It's too fast! 🏃‍♂️",
-  'Just say yes already! 😄',
-  'The button has spoken 💅',
-  'Resistance is futile 💘',
-  'Give up yet? 😂',
-  'I could do this all day 💖',
-  'Your heart knows the answer 🥰',
-  'Okay now you\'re just being stubborn 😤',
-  'The universe wants you to say yes 🌌',
+// =====================================================================
+//  10. NO BUTTON DODGE
+// =====================================================================
+const noTexts = [
+  '😢 No',
+  '🥺 Are you sure?',
+  '😭 Really?',
+  '💔 Think again',
+  '😔 Last chance?'
 ];
 
 function escapeNoButton() {
+  if (escapeCount >= 5) {
+    btnNo.style.display = 'none';
+    return;
+  }
+
   escapeCount++;
   if (!btnNo.classList.contains('escaped')) btnNo.classList.add('escaped');
 
@@ -436,6 +437,9 @@ function escapeNoButton() {
   const maxX = window.innerWidth - w - pad, maxY = window.innerHeight - h - pad;
   const nx = pad + Math.random() * maxX, ny = pad + Math.random() * maxY;
   btnNo.style.left = nx + 'px'; btnNo.style.top = ny + 'px';
+
+  // Set the text after escaping
+  btnNo.textContent = noTexts[escapeCount - 1];
 
   const noScale = Math.max(0.5, 1 - escapeCount * 0.04);
   const noOp = Math.max(0.35, 1 - escapeCount * 0.05);
@@ -446,11 +450,7 @@ function escapeNoButton() {
   btnYes.style.transform = 'scale(' + yesScale + ')';
 
   dodgeCounter.classList.add('visible');
-  if (escapeCount < dodgeMessages.length && dodgeMessages[escapeCount]) {
-    dodgeCounter.textContent = dodgeMessages[escapeCount];
-  } else {
-    dodgeCounter.innerHTML = 'Dodged: <strong>' + escapeCount + '</strong> times';
-  }
+  dodgeCounter.innerHTML = 'Dodged: <strong>' + escapeCount + '</strong> times';
 
   createSparkleBurst(nx + w / 2, ny + h / 2, 6);
 }

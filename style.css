@@ -1648,3 +1648,12 @@ textarea.response-input:focus {
     transition-duration: 0.01ms !important;
   }
 }
+
+.success-heart {
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  -webkit-text-fill-color: initial !important;
+  background-clip: initial !important;
+  display: inline-block;
+}
+
