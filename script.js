@@ -538,12 +538,18 @@ $('go-response').addEventListener('click', function () { showScene('response'); 
       p.style.opacity = '0';
       p.style.transform = 'translateY(16px)';
       p.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-      p.style.transitionDelay = (i * 0.18) + 's';
+      p.style.transitionDelay = (1.5 + i * 0.18) + 's'; // Delay until typewriter finishes
       setTimeout(function () {
         p.style.opacity = '1';
         p.style.transform = 'translateY(0)';
       }, 100);
     });
+    
+    // Typewriter effect for "My Dearest ❤️"
+    setTimeout(function() {
+      typewriter($('typewriter-header'), 'My Dearest ❤️', 100);
+    }, 400);
+
     obs.disconnect();
   });
 
@@ -553,35 +559,52 @@ $('go-response').addEventListener('click', function () { showScene('response'); 
 })();
 
 // =====================================================================
-//  15. PHOTO GALLERY — Generate placeholder images
+//  15. PHOTO GALLERY — Carousel
 // =====================================================================
-(function initGallery() {
-  const grid = $('gallery-grid');
+(function initCarousel() {
+  const container = $('carousel-container');
   const memories = [
     { caption: 'Our first smile 😊', color: '#ff6b9d' },
     { caption: 'That magical evening 🌅', color: '#c44dff' },
     { caption: 'Adventures together 🗺️', color: '#ff9a9e' },
     { caption: 'Stargazing nights ✨', color: '#6c5ce7' },
     { caption: 'Our favorite place 🏖️', color: '#fd79a8' },
-    { caption: 'Silly moments 🤪', color: '#e17055' },
-    { caption: 'Date night 🍷', color: '#d63031' },
-    { caption: 'Forever & always 💕', color: '#e84393' },
   ];
 
   memories.forEach(function (m, i) {
-    const item = document.createElement('div');
-    item.className = 'gallery-item';
+    const slide = document.createElement('div');
+    slide.className = 'carousel-slide';
 
-    // Create a beautiful gradient placeholder
+    // Placeholder image
     const hue1 = 330 + i * 15;
     const hue2 = hue1 + 40;
-    item.innerHTML =
-      '<div class="gallery-placeholder" style="background: linear-gradient(135deg, hsl(' +
+    slide.innerHTML =
+      '<div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:4rem; background: linear-gradient(135deg, hsl(' +
       hue1 + ', 80%, 60%), hsl(' + hue2 + ', 70%, 45%));">' +
-      '<span class="gallery-placeholder-icon">' + ['📸', '🌅', '🗺️', '✨', '🏖️', '🤪', '🍷', '💕'][i] + '</span>' +
+      ['📸', '🌅', '🗺️', '✨', '🏖️'][i] +
       '</div>' +
       '<div class="caption">' + m.caption + '</div>';
-    grid.appendChild(item);
+    container.appendChild(slide);
+  });
+
+  let currentIndex = 0;
+  
+  function updateCarousel() {
+    container.style.transform = 'translateX(-' + (currentIndex * 100) + '%)';
+  }
+
+  $('carousel-prev').addEventListener('click', function() {
+    if (currentIndex > 0) {
+      currentIndex--;
+      updateCarousel();
+    }
+  });
+
+  $('carousel-next').addEventListener('click', function() {
+    if (currentIndex < memories.length - 1) {
+      currentIndex++;
+      updateCarousel();
+    }
   });
 })();
 
@@ -623,6 +646,13 @@ $('response-submit').addEventListener('click', function () {
 
   createSparkleBurst(window.innerWidth / 2, window.innerHeight / 2, 30);
   createConfetti(30);
+});
+
+// Final surprise logic
+$('btn-surprise').addEventListener('click', function() {
+  $('hidden-surprise').classList.add('show');
+  this.style.display = 'none';
+  createSparkleBurst(window.innerWidth / 2, window.innerHeight - 50, 20);
 });
 
 // =====================================================================

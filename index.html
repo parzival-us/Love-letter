@@ -101,12 +101,12 @@
   <section id="love-letter-scene" class="scene love-letter-scene" style="opacity:0; pointer-events:none;">
     <div class="letter-container">
       <div class="letter-card">
-        <h2 class="letter-header">My Dearest ❤️</h2>
+        <h2 class="letter-header" id="typewriter-header"></h2>
         <div class="letter-body" id="letter-body">
           <p>From the moment you came into my life, everything changed. The stars seem brighter, the days feel warmer, and my heart beats a little faster every time I think of you.</p>
           <p>You are my favorite notification, my best conversation, and the reason I smile at my phone like an idiot. 😊</p>
-          <p>Every moment with you feels like a scene from my favorite movie — except it's real, and it's better than anything I could have ever imagined.</p>
-          <p>I don't know what I did to deserve someone as amazing as you, but I promise to spend every day making sure you never regret choosing me.</p>
+          <p>I still laugh whenever I think about <strong>[insert your inside joke here, e.g., "that time we tried to cook pasta and set the fire alarm off"]</strong>.</p>
+          <p>Every moment with you — especially <strong>[insert favorite memory here, e.g., "our late night drives listening to Taylor Swift"]</strong> — feels like a scene from my favorite movie.</p>
           <p>You're not just my love — you're my best friend, my safe place, and my greatest adventure. 🌟</p>
           <p>Thank you for being you. Thank you for choosing me. Thank you for making every ordinary day feel extraordinary.</p>
         </div>
@@ -121,8 +121,12 @@
     <div class="gallery-container">
       <h2 class="gallery-header">Our Memories 📸</h2>
       <p class="gallery-sub">Every moment with you is a treasure</p>
-      <div class="gallery-grid" id="gallery-grid">
-        <!-- Filled by JS with generated placeholder images -->
+      <div class="carousel-wrapper">
+        <button class="carousel-btn prev-btn" id="carousel-prev" aria-label="Previous image">❮</button>
+        <div class="carousel-container" id="carousel-container">
+          <!-- Filled by JS with favorite photos -->
+        </div>
+        <button class="carousel-btn next-btn" id="carousel-next" aria-label="Next image">❯</button>
       </div>
       <button class="btn gallery-nav-btn" id="go-countdown" type="button">Our countdown ⏳</button>
     </div>
@@ -174,6 +178,12 @@
         <h2 class="response-title">Thank you, my love!</h2>
         <p class="response-sub">Your words mean the world to me ✨</p>
         <div class="response-message-display" id="response-message-display"></div>
+      </div>
+      
+      <!-- Final Surprise -->
+      <button class="btn-tiny-surprise" id="btn-surprise">One last thing... ❤️</button>
+      <div class="hidden-surprise" id="hidden-surprise">
+        <p>I just wanted to say... I love you more than words can express. Here's to forever. 🥂💖</p>
       </div>
     </div>
   </section>
