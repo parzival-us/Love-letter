@@ -641,7 +641,7 @@ $('response-submit').addEventListener('click', async function () {
   }
 
   // To receive the messages, go to https://web3forms.com, get a free access key, and paste it below:
-  const WEB3FORMS_ACCESS_KEY = 'YOUR_ACCESS_KEY_HERE'; // <-- PASTE YOUR KEY HERE
+  const WEB3FORMS_ACCESS_KEY = '252004f1-d2fd-4fd1-963e-3f7b9db58041'; // <-- PASTE YOUR KEY HERE
 
   const submitBtn = $('response-submit');
   const originalText = submitBtn.textContent;
