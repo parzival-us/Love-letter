@@ -632,12 +632,36 @@ function startCountdown() {
 // =====================================================================
 //  17. RESPONSE INPUT
 // =====================================================================
-$('response-submit').addEventListener('click', function () {
+$('response-submit').addEventListener('click', async function () {
   const msg = $('response-input').value.trim();
   if (!msg) {
     $('response-input').style.borderColor = '#ff4b7a';
     $('response-input').setAttribute('placeholder', 'Don\'t be shy... type something! 💖');
     return;
+  }
+
+  // To receive the messages, go to https://web3forms.com, get a free access key, and paste it below:
+  const WEB3FORMS_ACCESS_KEY = 'YOUR_ACCESS_KEY_HERE'; // <-- PASTE YOUR KEY HERE
+
+  const submitBtn = $('response-submit');
+  const originalText = submitBtn.textContent;
+  submitBtn.textContent = 'Sending... 💌';
+  submitBtn.disabled = true;
+
+  if (WEB3FORMS_ACCESS_KEY !== 'YOUR_ACCESS_KEY_HERE') {
+    try {
+      await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: 'New Love Letter Response! ❤️',
+          message: msg
+        })
+      });
+    } catch (err) {
+      console.error('Failed to send message:', err);
+    }
   }
 
   $('response-form-view').style.display = 'none';
