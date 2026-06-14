@@ -14,7 +14,7 @@
     rel="stylesheet"
   />
 
-  <link rel="stylesheet" href="style.css?v=4" />
+  <link rel="stylesheet" href="style.css?v=6" />
 </head>
 <body>
 
@@ -22,6 +22,11 @@
   <canvas id="stars-canvas" aria-hidden="true"></canvas>
   <canvas id="trail-canvas" aria-hidden="true"></canvas>
   <canvas id="fireworks-canvas" aria-hidden="true"></canvas>
+  <div class="background-aurora" aria-hidden="true">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
   <div id="ambient-hearts" class="ambient-hearts" aria-hidden="true"></div>
   <div id="shooting-stars" aria-hidden="true"></div>
   <div id="heart-rain" class="heart-rain" aria-hidden="true"></div>
@@ -62,6 +67,7 @@
     <div class="card-wrapper">
       <main class="card">
         <div id="question-view">
+          <p class="scene-kicker">A little question from the heart</p>
           <div class="heart-icon" aria-hidden="true">💖</div>
           <h1>Will you be mine?&nbsp;❤️</h1>
           <p class="subtitle" id="subtitle"></p>
@@ -83,6 +89,7 @@
   <section id="success-scene" class="scene success-scene" style="opacity:0; pointer-events:none;">
     <div class="success-fullpage" id="success-view">
       <div class="success-glass-card">
+        <p class="scene-kicker">The beginning of something beautiful</p>
         <div class="success-top-heart">❤️</div>
         <h2 class="success-heading">You said yes...</h2>
         <div class="success-letter-body">
@@ -101,6 +108,8 @@
   <section id="love-letter-scene" class="scene love-letter-scene" style="opacity:0; pointer-events:none;">
     <div class="letter-container">
       <div class="letter-card">
+        <div class="letter-seal" aria-hidden="true">♥</div>
+        <p class="scene-kicker">A letter for you</p>
         <h2 class="letter-header" id="typewriter-header"></h2>
         <div class="letter-body" id="letter-body">
           <p>From the moment you came into my life, everything changed. The stars seem brighter, the days feel warmer, and my heart beats a little faster every time I think of you.</p>
@@ -119,6 +128,7 @@
   <!-- ============ SCENE 5: Photo Gallery ============ -->
   <section id="gallery-scene" class="scene gallery-scene" style="opacity:0; pointer-events:none;">
     <div class="gallery-container">
+      <p class="scene-kicker">Little moments, forever kept</p>
       <h2 class="gallery-header">Our Memories 📸</h2>
       <p class="gallery-sub">Every moment with you is a treasure</p>
       <div class="carousel-wrapper">
@@ -128,6 +138,7 @@
         </div>
         <button class="carousel-btn next-btn" id="carousel-next" aria-label="Next image">❯</button>
       </div>
+      <div class="carousel-dots" id="carousel-dots" aria-label="Choose a memory"></div>
       <button class="btn gallery-nav-btn" id="go-countdown" type="button">Our countdown ⏳</button>
     </div>
   </section>
@@ -135,6 +146,7 @@
   <!-- ============ SCENE 6: Countdown Timer ============ -->
   <section id="countdown-scene" class="scene countdown-scene" style="opacity:0; pointer-events:none;">
     <div class="countdown-card">
+      <p class="scene-kicker">Since our favorite yes</p>
       <div class="countdown-emoji">⏳</div>
       <h2 class="countdown-title">Counting Every Second</h2>
       <p class="countdown-sub" id="countdown-label">Until our next special moment...</p>
@@ -167,6 +179,7 @@
   <section id="response-scene" class="scene response-scene" style="opacity:0; pointer-events:none;">
     <div class="response-card">
       <div id="response-form-view">
+        <p class="scene-kicker">Now it is your turn</p>
         <div class="response-emoji">💬</div>
         <h2 class="response-title">Say Something Back...</h2>
         <p class="response-sub">I'd love to hear from you 🥰</p>
@@ -188,6 +201,6 @@
     </div>
   </section>
 
-  <script src="script.js?v=5"></script>
+  <script src="script.js?v=7"></script>
 </body>
 </html>

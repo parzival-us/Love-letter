@@ -563,34 +563,47 @@ $('go-response').addEventListener('click', function () { showScene('response'); 
 // =====================================================================
 (function initCarousel() {
   const container = $('carousel-container');
+  const dots = $('carousel-dots');
   const memories = [
-    { caption: 'Our first smile 😊', color: '#ff6b9d' },
-    { caption: 'That magical evening 🌅', color: '#c44dff' },
-    { caption: 'Adventures together 🗺️', color: '#ff9a9e' },
-    { caption: 'Stargazing nights ✨', color: '#6c5ce7' },
-    { caption: 'Our favorite place 🏖️', color: '#fd79a8' },
+    { caption: 'Our first smile 😊', icon: '📸' },
+    { caption: 'That magical evening 🌅', icon: '🌅' },
+    { caption: 'Adventures together 🗺️', icon: '🗺️' },
+    { caption: 'Stargazing nights ✨', icon: '✨' },
+    { caption: 'Our favorite place 🏖️', icon: '🏖️' },
   ];
 
   memories.forEach(function (m, i) {
     const slide = document.createElement('div');
     slide.className = 'carousel-slide';
-
-    // Placeholder image
-    const hue1 = 330 + i * 15;
-    const hue2 = hue1 + 40;
     slide.innerHTML =
-      '<div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:4rem; background: linear-gradient(135deg, hsl(' +
-      hue1 + ', 80%, 60%), hsl(' + hue2 + ', 70%, 45%));">' +
-      ['📸', '🌅', '🗺️', '✨', '🏖️'][i] +
+      '<div class="memory-art memory-art-' + (i + 1) + '">' +
+      '<span class="memory-orbit" aria-hidden="true"></span>' +
+      '<span class="memory-number">0' + (i + 1) + '</span>' +
+      '<span class="memory-icon" aria-hidden="true">' + m.icon + '</span>' +
       '</div>' +
-      '<div class="caption">' + m.caption + '</div>';
+      '<div class="caption"><span>Memory 0' + (i + 1) + '</span><strong>' + m.caption + '</strong></div>';
     container.appendChild(slide);
+
+    const dot = document.createElement('button');
+    dot.type = 'button';
+    dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', 'Show memory ' + (i + 1));
+    dot.addEventListener('click', function () {
+      currentIndex = i;
+      updateCarousel();
+    });
+    dots.appendChild(dot);
   });
 
   let currentIndex = 0;
   
   function updateCarousel() {
     container.style.transform = 'translateX(-' + (currentIndex * 100) + '%)';
+    dots.querySelectorAll('.carousel-dot').forEach(function (dot, i) {
+      dot.classList.toggle('active', i === currentIndex);
+    });
+    $('carousel-prev').disabled = currentIndex === 0;
+    $('carousel-next').disabled = currentIndex === memories.length - 1;
   }
 
   $('carousel-prev').addEventListener('click', function() {
@@ -606,6 +619,8 @@ $('go-response').addEventListener('click', function () { showScene('response'); 
       updateCarousel();
     }
   });
+
+  updateCarousel();
 })();
 
 // =====================================================================
@@ -667,6 +682,9 @@ $('response-submit').addEventListener('click', async function () {
   $('response-form-view').style.display = 'none';
   $('response-thanks').style.display = 'block';
   $('response-message-display').textContent = '"' + msg + '"';
+  requestAnimationFrame(function () {
+    $('response-thanks').classList.add('show');
+  });
 
   createSparkleBurst(window.innerWidth / 2, window.innerHeight / 2, 30);
   createConfetti(30);
@@ -689,23 +707,97 @@ let loopTimeoutId = null;
 let isLooping = false;
 let loopCount = 0;
 const maxLoops = 200;
+let musicDry = null;
+let musicReverb = null;
 
-const notes = [
-  { freq: 523.25, dur: 0.5 }, // C5
-  { freq: 659.25, dur: 0.5 }, // E5
-  { freq: 783.99, dur: 0.75 }, // G5
-  { freq: 698.46, dur: 0.5 }, // F5
-  { freq: 659.25, dur: 0.5 }, // E5
-  { freq: 523.25, dur: 0.75 }, // C5
-  { freq: 587.33, dur: 0.5 }, // D5
-  { freq: 523.25, dur: 0.5 }, // C5
-  { freq: 440.00, dur: 0.75 }, // A4
-  { freq: 523.25, dur: 0.5 }, // C5
-  { freq: 587.33, dur: 0.5 }, // D5
-  { freq: 659.25, dur: 1.0 },  // E5
+const pianoTempo = 66;
+const beatSeconds = 60 / pianoTempo;
+const pianoBars = [
+  { chord: [48, 55, 60, 64], melody: [[0, 72, 1], [1, 76, 1], [2, 79, 1]] },
+  { chord: [45, 52, 57, 60], melody: [[0, 81, 1.5], [1.5, 79, 0.5], [2, 76, 1]] },
+  { chord: [41, 48, 53, 57], melody: [[0, 77, 1], [1, 76, 1], [2, 74, 1]] },
+  { chord: [43, 50, 55, 59], melody: [[0, 71, 1], [1, 74, 1], [2, 79, 1]] },
+  { chord: [48, 55, 60, 64], melody: [[0, 76, 0.75], [0.75, 77, 0.75], [1.5, 79, 1.5]] },
+  { chord: [45, 52, 57, 60], melody: [[0, 81, 1], [1, 79, 1], [2, 76, 1]] },
+  { chord: [43, 50, 55, 59], melody: [[0, 74, 1], [1, 71, 1], [2, 74, 1]] },
+  { chord: [48, 55, 60, 64], melody: [[0, 72, 1], [1, 76, 1], [2, 72, 1.8]] },
 ];
+const pianoPieceDuration = pianoBars.length * 3 * beatSeconds;
 
-const totalDur = notes.reduce(function (s, n) { return s + n.dur; }, 0);
+function midiToFrequency(note) {
+  return 440 * Math.pow(2, (note - 69) / 12);
+}
+
+function createRoomImpulse(ctx, seconds, decay) {
+  const length = Math.floor(ctx.sampleRate * seconds);
+  const impulse = ctx.createBuffer(2, length, ctx.sampleRate);
+
+  for (let channel = 0; channel < impulse.numberOfChannels; channel++) {
+    const data = impulse.getChannelData(channel);
+    for (let i = 0; i < length; i++) {
+      data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, decay);
+    }
+  }
+
+  return impulse;
+}
+
+function setupPianoAudio() {
+  const master = audioCtx.createGain();
+  const compressor = audioCtx.createDynamicsCompressor();
+  const reverb = audioCtx.createConvolver();
+  musicDry = audioCtx.createGain();
+  musicReverb = audioCtx.createGain();
+
+  master.gain.value = 0.72;
+  musicDry.gain.value = 0.82;
+  musicReverb.gain.value = 0.18;
+  reverb.buffer = createRoomImpulse(audioCtx, 2.2, 3.2);
+
+  compressor.threshold.value = -22;
+  compressor.knee.value = 18;
+  compressor.ratio.value = 3;
+  compressor.attack.value = 0.02;
+  compressor.release.value = 0.35;
+
+  musicDry.connect(master);
+  musicReverb.connect(reverb);
+  reverb.connect(master);
+  master.connect(compressor);
+  compressor.connect(audioCtx.destination);
+}
+
+function schedulePianoNote(midi, start, duration, velocity) {
+  const noteOut = audioCtx.createGain();
+  const frequency = midiToFrequency(midi);
+  const attack = 0.012;
+  const releaseAt = Math.max(start + attack + 0.05, start + duration);
+  const end = releaseAt + 0.8;
+
+  noteOut.gain.setValueAtTime(0.0001, start);
+  noteOut.gain.exponentialRampToValueAtTime(velocity, start + attack);
+  noteOut.gain.exponentialRampToValueAtTime(velocity * 0.34, start + 0.28);
+  noteOut.gain.exponentialRampToValueAtTime(0.0001, end);
+  noteOut.connect(musicDry);
+  noteOut.connect(musicReverb);
+
+  [
+    { ratio: 1, type: 'triangle', gain: 0.72, detune: -1.5 },
+    { ratio: 2, type: 'sine', gain: 0.2, detune: 1.5 },
+    { ratio: 3, type: 'sine', gain: 0.08, detune: 0 },
+  ].forEach(function (voice) {
+    const osc = audioCtx.createOscillator();
+    const voiceGain = audioCtx.createGain();
+    osc.type = voice.type;
+    osc.frequency.value = frequency * voice.ratio;
+    osc.detune.value = voice.detune;
+    voiceGain.gain.value = voice.gain;
+    osc.connect(voiceGain);
+    voiceGain.connect(noteOut);
+    osc.start(start);
+    osc.stop(end + 0.05);
+  });
+}
 
 function playMelody() {
   if (!musicPlaying || loopCount >= maxLoops || !audioCtx) {
@@ -715,45 +807,36 @@ function playMelody() {
   isLooping = true;
   loopCount++;
 
-  let time = audioCtx.currentTime + 0.1;
+  const pieceStart = audioCtx.currentTime + 0.12;
 
-  notes.forEach(function (note) {
-    // Main oscillator
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.type = 'sine';
-    osc.frequency.value = note.freq;
-    gain.gain.setValueAtTime(0, time);
-    gain.gain.linearRampToValueAtTime(0.08, time + 0.05);
-    gain.gain.linearRampToValueAtTime(0.06, time + note.dur * 0.6);
-    gain.gain.linearRampToValueAtTime(0, time + note.dur);
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    osc.start(time);
-    osc.stop(time + note.dur);
+  pianoBars.forEach(function (bar, barIndex) {
+    const barStart = pieceStart + barIndex * 3 * beatSeconds;
+    const bass = bar.chord[0];
+    const upper = bar.chord.slice(1);
 
-    // Soft harmony (fifth above, very quiet)
-    const osc2 = audioCtx.createOscillator();
-    const gain2 = audioCtx.createGain();
-    osc2.type = 'sine';
-    osc2.frequency.value = note.freq * 1.498;
-    gain2.gain.setValueAtTime(0, time);
-    gain2.gain.linearRampToValueAtTime(0.02, time + 0.05);
-    gain2.gain.linearRampToValueAtTime(0, time + note.dur);
-    osc2.connect(gain2);
-    gain2.connect(audioCtx.destination);
-    osc2.start(time);
-    osc2.stop(time + note.dur);
+    schedulePianoNote(bass, barStart, beatSeconds * 2.5, 0.075);
+    upper.forEach(function (note, i) {
+      schedulePianoNote(note, barStart + (i + 0.08) * beatSeconds, beatSeconds * 1.65, 0.052);
+    });
 
-    time += note.dur;
+    bar.melody.forEach(function (event, eventIndex) {
+      const gentleRubato = eventIndex === 0 ? 0 : (barIndex % 2 ? 0.025 : -0.012);
+      schedulePianoNote(
+        event[1],
+        barStart + event[0] * beatSeconds + gentleRubato,
+        event[2] * beatSeconds,
+        0.092
+      );
+    });
   });
 
-  loopTimeoutId = setTimeout(playMelody, totalDur * 1000 + 500);
+  loopTimeoutId = setTimeout(playMelody, pianoPieceDuration * 1000 + 900);
 }
 
 function startMusic() {
   if (!audioCtx) {
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    setupPianoAudio();
   }
   if (audioCtx.state === 'suspended') {
     audioCtx.resume();
@@ -764,20 +847,25 @@ function startMusic() {
 }
 
 function stopMusic() {
-  if (audioCtx && audioCtx.state === 'running') {
-    audioCtx.suspend();
-  }
   if (loopTimeoutId) {
     clearTimeout(loopTimeoutId);
     loopTimeoutId = null;
   }
+  if (audioCtx) {
+    audioCtx.close();
+    audioCtx = null;
+  }
+  musicDry = null;
+  musicReverb = null;
   isLooping = false;
+  loopCount = 0;
 }
 
 musicBtn.addEventListener('click', function () {
   musicPlaying = !musicPlaying;
   musicBtn.classList.toggle('playing', musicPlaying);
   musicBtn.textContent = musicPlaying ? '🎶' : '🎵';
+  musicBtn.setAttribute('aria-label', musicPlaying ? 'Pause music' : 'Play music');
 
   if (musicPlaying) {
     startMusic();
@@ -793,6 +881,7 @@ themeBtn.addEventListener('click', function () {
   isDark = !isDark;
   document.body.classList.toggle('light-theme', !isDark);
   themeBtn.textContent = isDark ? '🌙' : '☀️';
+  themeBtn.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
 });
 
 // =====================================================================
