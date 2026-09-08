@@ -289,6 +289,57 @@ h1 {
   transform: none;
 }
 
+.answer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.answer-button-secondary {
+  color: rgba(255, 238, 245, 0.82);
+  background: rgba(255, 255, 255, 0.045);
+  box-shadow: none;
+}
+
+.answer-button-secondary:hover {
+  border-color: rgba(255, 222, 234, 0.48);
+  background: rgba(255, 255, 255, 0.09);
+  box-shadow: none;
+  filter: none;
+}
+
+.proposal-note-label {
+  display: block;
+  margin: 1.45rem 0 0.55rem;
+  color: rgba(255, 233, 242, 0.62);
+  font-size: 0.76rem;
+}
+
+textarea.proposal-note {
+  display: block;
+  width: 100%;
+  min-height: 88px;
+  padding: 0.9rem 1rem;
+  resize: vertical;
+  border: 1px solid rgba(255, 226, 236, 0.13);
+  border-radius: 15px;
+  color: #fff5f9;
+  background: rgba(255, 255, 255, 0.035);
+  font: inherit;
+  line-height: 1.5;
+}
+
+textarea.proposal-note::placeholder {
+  color: rgba(255, 231, 241, 0.35);
+}
+
+textarea.proposal-note:focus {
+  outline: none;
+  border-color: rgba(255, 156, 190, 0.72);
+  box-shadow: 0 0 0 4px rgba(255, 111, 145, 0.08);
+}
+
 .answer-note {
   max-height: 0;
   margin: 0;
@@ -308,6 +359,10 @@ h1 {
   margin: 1.35rem auto 0;
   opacity: 1;
   transform: translateY(0);
+}
+
+.proposal-card.declined .answer-note {
+  color: rgba(255, 228, 239, 0.72);
 }
 
 .answer-status {

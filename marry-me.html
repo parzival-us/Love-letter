@@ -12,7 +12,7 @@
     href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="marry-me.css?v=1" />
+  <link rel="stylesheet" href="marry-me.css?v=2" />
 </head>
 <body>
   <div class="proposal-glow proposal-glow-one" aria-hidden="true"></div>
@@ -40,12 +40,18 @@
         <p>The conversations that run late, the plans that change halfway through, and the ordinary days that somehow become my favorite. I want to keep choosing all of it with you.</p>
       </div>
 
-      <button class="answer-button" id="answer-button" type="button">Yes, always</button>
-      <p class="answer-note" id="answer-note" aria-hidden="true">Then let's build it one ordinary, beautiful day at a time.</p>
+      <div class="answer-actions" id="answer-actions">
+        <button class="answer-button" id="answer-button" type="button">Yes, always</button>
+        <button class="answer-button answer-button-secondary" id="not-now-button" type="button">No, not right now</button>
+      </div>
+      <label class="proposal-note-label" for="proposal-note">A note, if you would like to leave one</label>
+      <textarea class="proposal-note" id="proposal-note" rows="3" placeholder="Write a few words..."></textarea>
+      <p class="answer-note" id="answer-note" aria-hidden="true"></p>
       <p class="answer-status" id="answer-status" role="status" aria-live="polite"></p>
     </section>
   </main>
 
-  <script src="marry-me.js?v=1"></script>
+  <script src="form-config.js?v=1"></script>
+  <script src="marry-me.js?v=2"></script>
 </body>
 </html>
