@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A question for our future." />
+  <title>Will You Marry Me?</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="marry-me.css?v=1" />
+</head>
+<body>
+  <div class="proposal-glow proposal-glow-one" aria-hidden="true"></div>
+  <div class="proposal-glow proposal-glow-two" aria-hidden="true"></div>
+
+  <main class="proposal-shell">
+    <a class="back-link" href="index.html">Back to the letter</a>
+
+    <section class="proposal-card" id="proposal-card" aria-labelledby="proposal-title">
+      <p class="proposal-kicker">A question for our future</p>
+
+      <button class="ring-button" id="ring-button" type="button" aria-label="Open the ring box" aria-describedby="ring-prompt" aria-pressed="false">
+        <span class="ring-box" aria-hidden="true">
+          <span class="ring-lid"></span>
+          <span class="ring-base"></span>
+          <span class="ring-band"></span>
+          <span class="ring-stone"></span>
+        </span>
+      </button>
+      <p class="ring-prompt" id="ring-prompt">Open the ring box.</p>
+
+      <h1 id="proposal-title">Will you marry me?</h1>
+      <div class="proposal-copy">
+        <p>Not because I imagine a perfect life, but because I want the real one with you.</p>
+        <p>The conversations that run late, the plans that change halfway through, and the ordinary days that somehow become my favorite. I want to keep choosing all of it with you.</p>
+      </div>
+
+      <button class="answer-button" id="answer-button" type="button">Yes, always</button>
+      <p class="answer-note" id="answer-note" aria-hidden="true">Then let's build it one ordinary, beautiful day at a time.</p>
+      <p class="answer-status" id="answer-status" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <script src="marry-me.js?v=1"></script>
+</body>
+</html>

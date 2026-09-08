@@ -1145,46 +1145,41 @@ textarea.response-input:focus {
 
 .hidden-surprise.show {
   opacity: 1;
-  max-height: 100px;
+  max-height: 180px;
+}
+
+.proposal-link {
+  display: inline-flex;
+  margin-bottom: 0.7rem;
+  padding: 0.45rem 0.8rem;
+  border: 1px solid rgba(255, 182, 211, 0.32);
+  border-radius: 999px;
+  color: #ffd9e7;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.74rem;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+}
+
+.proposal-link:hover,
+.proposal-link:focus-visible {
+  border-color: rgba(255, 222, 235, 0.7);
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-1px);
+}
+
+.proposal-link:focus-visible {
+  outline: 1px solid rgba(255, 226, 237, 0.9);
+  outline-offset: 3px;
 }
 
 /* ═══════════════════════════════════════════════════════════════
    EFFECTS — Ambient Hearts
    ═══════════════════════════════════════════════════════════════ */
-.ambient-hearts {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 3;
-  overflow: hidden;
-}
-
-.ambient-heart {
-  position: absolute;
-  bottom: -40px;
-  font-size: 1.2rem;
-  opacity: 0;
-  animation: floatUp linear forwards;
-  pointer-events: none;
-}
-
-@keyframes floatUp {
-  0% {
-    opacity: 0;
-    transform: translateY(0) rotate(0deg) scale(0.5);
-  }
-  10% {
-    opacity: 0.6;
-  }
-  90% {
-    opacity: 0.3;
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-100vh) rotate(360deg) scale(1.2);
-  }
-}
-
 /* ═══════════════════════════════════════════════════════════════
    EFFECTS — Orbs
    ═══════════════════════════════════════════════════════════════ */
@@ -1207,32 +1202,6 @@ textarea.response-input:focus {
 /* ═══════════════════════════════════════════════════════════════
    EFFECTS — Heart Rain
    ═══════════════════════════════════════════════════════════════ */
-.heart-rain {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 55;
-  overflow: hidden;
-}
-
-.rain-heart {
-  position: absolute;
-  top: -50px;
-  animation: rainFall linear forwards;
-  pointer-events: none;
-}
-
-@keyframes rainFall {
-  0% {
-    opacity: 1;
-    transform: translateY(0) rotate(0deg);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(110vh) rotate(720deg);
-  }
-}
-
 /* ═══════════════════════════════════════════════════════════════
    EFFECTS — Sparkles
    ═══════════════════════════════════════════════════════════════ */
@@ -2434,12 +2403,24 @@ h1 {
   to { transform: rotate(360deg); }
 }
 
-.memory-icon {
+.memory-core {
   position: relative;
   z-index: 1;
-  font-size: clamp(4rem, 10vw, 6rem);
-  filter: drop-shadow(0 18px 24px rgba(10, 5, 20, 0.38));
-  transform: translateY(-8px);
+  width: 18%;
+  min-width: 42px;
+  aspect-ratio: 1;
+  border: 1px solid rgba(255, 238, 244, 0.34);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 32%, rgba(255, 255, 255, 0.82), rgba(255, 185, 211, 0.34) 30%, rgba(255, 185, 211, 0.03) 68%);
+  box-shadow: 0 0 32px rgba(255, 165, 199, 0.32), inset 0 0 16px rgba(255, 255, 255, 0.16);
+}
+
+.memory-core::before {
+  content: '';
+  position: absolute;
+  inset: 25%;
+  border: 1px solid rgba(255, 245, 249, 0.5);
+  border-radius: 50%;
 }
 
 .memory-number {
@@ -2809,5 +2790,112 @@ textarea.response-input:focus {
   .countdown-unit {
     padding: 1rem 0.45rem;
   }
+}
+
+/* Quiet, code-drawn marks replace decorative emoji. */
+.intro-heart,
+.heart-icon,
+.success-top-heart {
+  position: relative;
+  display: grid;
+  width: 64px;
+  height: 60px;
+  place-items: center;
+  margin: 0 auto 1rem;
+  font-size: 0;
+  filter: none;
+}
+
+.intro-heart {
+  margin-bottom: 0.25rem;
+}
+
+.heart-icon {
+  margin-bottom: 0.85rem;
+}
+
+.intro-heart::before,
+.heart-icon::before,
+.success-top-heart::before {
+  content: '';
+  width: 38px;
+  height: 33px;
+  background: linear-gradient(135deg, #ffd3e0, #ef739b 58%, #a43f6c);
+  box-shadow: 0 12px 26px rgba(237, 103, 151, 0.32);
+  clip-path: polygon(50% 100%, 4% 58%, 0 33%, 7% 13%, 23% 2%, 39% 6%, 50% 19%, 61% 6%, 77% 2%, 93% 13%, 100% 33%, 96% 58%);
+}
+
+.intro-heart::after,
+.heart-icon::after,
+.success-top-heart::after {
+  content: '';
+  position: absolute;
+  top: 13px;
+  right: 15px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.65);
+}
+
+.theme-toggle,
+.music-toggle {
+  font-size: 0;
+}
+
+.control-mark {
+  position: relative;
+  display: block;
+  width: 18px;
+  height: 18px;
+  color: #ffe0ea;
+}
+
+.control-mark-theme {
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+}
+
+.control-mark-theme::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.28;
+}
+
+.control-mark-music::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 11px;
+  width: 2px;
+  height: 11px;
+  border-radius: 2px;
+  background: currentColor;
+  transform: rotate(-16deg);
+  transform-origin: bottom;
+}
+
+.control-mark-music::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 8px -3px 0 currentColor;
+}
+
+.music-toggle.playing .control-mark-music {
+  animation: musicPulse 1s ease-in-out infinite;
+}
+
+.light-theme .control-mark {
+  color: #7b3152;
 }
 

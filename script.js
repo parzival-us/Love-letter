@@ -28,7 +28,6 @@ const btnNo        = $('btn-no');
 const dodgeCounter = $('dodge-counter');
 const dodgeCount   = $('dodge-count');
 const subtitleEl   = $('subtitle');
-const heartRain    = $('heart-rain');
 const starsCanvas  = $('stars-canvas');
 const trailCanvas  = $('trail-canvas');
 const fwCanvas     = $('fireworks-canvas');
@@ -90,7 +89,7 @@ function revealPostYesDots() {
     setTimeout(function () {
       scenes.intro.style.display = 'none';
       showScene('question');
-      typewriter(subtitleEl, 'I promise to make every day special ✨', 55);
+      typewriter(subtitleEl, 'I promise to make every day special.', 55);
     }, 1200);
   }, 3500);
 })();
@@ -141,7 +140,7 @@ function revealPostYesDots() {
 })();
 
 // =====================================================================
-//  4. MOUSE / TOUCH HEART TRAIL
+//  4. MOUSE / TOUCH LIGHT TRAIL
 // =====================================================================
 (function initTrail() {
   const ctx = trailCanvas.getContext('2d');
@@ -158,8 +157,6 @@ function revealPostYesDots() {
   document.addEventListener('mousemove', function (e) { mouse.x = e.clientX; mouse.y = e.clientY; });
   document.addEventListener('touchmove', function (e) { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; }, { passive: true });
 
-  const emojis = ['💖', '✨', '💕', '💗', '✨'];
-
   function draw(t) {
     ctx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
     if (t - last > 55 && mouse.x > 0) {
@@ -171,17 +168,18 @@ function revealPostYesDots() {
         vy: -1.2 - Math.random() * 2.2,
         life: 1,
         decay: 0.014 + Math.random() * 0.01,
-        size: 10 + Math.random() * 12,
-        emoji: emojis[Math.floor(Math.random() * emojis.length)],
+        size: 1.5 + Math.random() * 2.8,
       });
     }
     for (let i = particles.length - 1; i >= 0; i--) {
       const p = particles[i];
       p.x += p.vx; p.y += p.vy; p.vy += 0.018; p.life -= p.decay;
       if (p.life <= 0) { particles.splice(i, 1); continue; }
-      ctx.globalAlpha = p.life;
-      ctx.font = p.size + 'px serif';
-      ctx.fillText(p.emoji, p.x, p.y);
+      ctx.globalAlpha = p.life * 0.8;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255, 222, 236, 0.95)';
+      ctx.fill();
     }
     ctx.globalAlpha = 1;
     requestAnimationFrame(draw);
@@ -190,23 +188,8 @@ function revealPostYesDots() {
 })();
 
 // =====================================================================
-//  5. AMBIENT HEARTS & ORBS
+//  5. AMBIENT ORBS
 // =====================================================================
-function createAmbientHearts() {
-  const c = $('ambient-hearts');
-  const h = ['💕', '💗', '💖', '✨', '💘', '💝', '🌸'];
-  for (let i = 0; i < 20; i++) {
-    const s = document.createElement('span');
-    s.className = 'ambient-heart';
-    s.textContent = h[Math.floor(Math.random() * h.length)];
-    s.style.left = Math.random() * 100 + '%';
-    s.style.animationDuration = (10 + Math.random() * 14) + 's';
-    s.style.animationDelay = (Math.random() * 14) + 's';
-    s.style.fontSize = (0.7 + Math.random() * 1.5) + 'rem';
-    c.appendChild(s);
-  }
-}
-
 function createOrbs() {
   const colors = ['rgba(255,75,122,0.5)', 'rgba(196,77,255,0.4)', 'rgba(255,154,158,0.45)', 'rgba(255,200,220,0.35)'];
   for (let i = 0; i < 10; i++) {
@@ -417,11 +400,11 @@ function createConfetti(count) {
 //  10. NO BUTTON DODGE
 // =====================================================================
 const noTexts = [
-  '😢 No',
-  '🥺 Are you sure?',
-  '😭 Really?',
-  '💔 Think again',
-  '😔 Last chance?'
+  'No',
+  'Are you sure?',
+  'Really?',
+  'Think again',
+  'Last chance?'
 ];
 
 function escapeNoButton() {
@@ -472,7 +455,6 @@ btnYes.addEventListener('click', function (e) {
     revealPostYesDots();
 
     // Celebration!
-    startHeartRain();
     createConfetti(30);
     createSparkleBurst(window.innerWidth / 2, window.innerHeight / 2, 25);
 
@@ -483,42 +465,6 @@ btnYes.addEventListener('click', function (e) {
     startCountdown();
   }, 200);
 });
-
-// =====================================================================
-//  12. HEART RAIN
-// =====================================================================
-function startHeartRain() {
-  const emojis = ['❤️', '💖', '💗', '💕', '💘', '💝', '🥰', '😍', '🎉', '✨', '🌹', '🌸'];
-  let spawned = 0;
-
-  function spawnHeart() {
-    if (spawned >= 80) return;
-    spawned++;
-    const h = document.createElement('span');
-    h.className = 'rain-heart';
-    h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-    h.style.left = Math.random() * 100 + '%';
-    h.style.fontSize = (1.2 + Math.random() * 2.4) + 'rem';
-    const dur = 2.5 + Math.random() * 3.5;
-    h.style.animationDuration = dur + 's';
-    heartRain.appendChild(h);
-    setTimeout(function () { h.remove(); }, dur * 1000);
-    setTimeout(spawnHeart, 50 + Math.random() * 100);
-  }
-  spawnHeart();
-
-  setInterval(function () {
-    const h = document.createElement('span');
-    h.className = 'rain-heart';
-    h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-    h.style.left = Math.random() * 100 + '%';
-    h.style.fontSize = (1 + Math.random() * 1.6) + 'rem';
-    const dur = 3 + Math.random() * 4;
-    h.style.animationDuration = dur + 's';
-    heartRain.appendChild(h);
-    setTimeout(function () { h.remove(); }, dur * 1000);
-  }, 500);
-}
 
 // =====================================================================
 //  13. SCENE NAVIGATION BUTTONS
@@ -545,9 +491,9 @@ $('go-response').addEventListener('click', function () { showScene('response'); 
       }, 100);
     });
     
-    // Typewriter effect for "My Dearest ❤️"
+    // Typewriter effect for the letter heading.
     setTimeout(function() {
-      typewriter($('typewriter-header'), 'My Dearest ❤️', 100);
+      typewriter($('typewriter-header'), 'My Dearest', 100);
     }, 400);
 
     obs.disconnect();
@@ -596,11 +542,11 @@ $('go-response').addEventListener('click', function () { showScene('response'); 
   const container = $('carousel-container');
   const dots = $('carousel-dots');
   const memories = [
-    { caption: 'Our first smile 😊', icon: '📸' },
-    { caption: 'That magical evening 🌅', icon: '🌅' },
-    { caption: 'Adventures together 🗺️', icon: '🗺️' },
-    { caption: 'Stargazing nights ✨', icon: '✨' },
-    { caption: 'Our favorite place 🏖️', icon: '🏖️' },
+    { caption: 'Our first smile' },
+    { caption: 'That magical evening' },
+    { caption: 'Adventures together' },
+    { caption: 'Stargazing nights' },
+    { caption: 'Our favorite place' },
   ];
 
   memories.forEach(function (m, i) {
@@ -610,7 +556,7 @@ $('go-response').addEventListener('click', function () { showScene('response'); 
       '<div class="memory-art memory-art-' + (i + 1) + '">' +
       '<span class="memory-orbit" aria-hidden="true"></span>' +
       '<span class="memory-number">0' + (i + 1) + '</span>' +
-      '<span class="memory-icon" aria-hidden="true">' + m.icon + '</span>' +
+      '<span class="memory-core" aria-hidden="true"></span>' +
       '</div>' +
       '<div class="caption"><span>Memory 0' + (i + 1) + '</span><strong>' + m.caption + '</strong></div>';
     container.appendChild(slide);
@@ -682,7 +628,7 @@ $('response-submit').addEventListener('click', async function () {
   const msg = $('response-input').value.trim();
   if (!msg) {
     $('response-input').style.borderColor = '#ff4b7a';
-    $('response-input').setAttribute('placeholder', 'Don\'t be shy... type something! 💖');
+    $('response-input').setAttribute('placeholder', "Don't be shy... type something.");
     return;
   }
 
@@ -691,7 +637,7 @@ $('response-submit').addEventListener('click', async function () {
 
   const submitBtn = $('response-submit');
   const originalText = submitBtn.textContent;
-  submitBtn.textContent = 'Sending... 💌';
+  submitBtn.textContent = 'Sending...';
   submitBtn.disabled = true;
 
   if (WEB3FORMS_ACCESS_KEY !== 'YOUR_ACCESS_KEY_HERE') {
@@ -701,7 +647,7 @@ $('response-submit').addEventListener('click', async function () {
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify({
           access_key: WEB3FORMS_ACCESS_KEY,
-          subject: 'New Love Letter Response! ❤️',
+          subject: 'New Love Letter Response',
           message: msg
         })
       });
@@ -895,7 +841,6 @@ function stopMusic() {
 musicBtn.addEventListener('click', function () {
   musicPlaying = !musicPlaying;
   musicBtn.classList.toggle('playing', musicPlaying);
-  musicBtn.textContent = musicPlaying ? '🎶' : '🎵';
   musicBtn.setAttribute('aria-label', musicPlaying ? 'Pause music' : 'Play music');
 
   if (musicPlaying) {
@@ -911,12 +856,11 @@ musicBtn.addEventListener('click', function () {
 themeBtn.addEventListener('click', function () {
   isDark = !isDark;
   document.body.classList.toggle('light-theme', !isDark);
-  themeBtn.textContent = isDark ? '🌙' : '☀️';
+  themeBtn.classList.toggle('light-mode', !isDark);
   themeBtn.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
 });
 
 // =====================================================================
 //  20. INIT
 // =====================================================================
-createAmbientHearts();
 createOrbs();

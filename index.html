@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="A romantic love letter — will you be mine?" />
-  <title>Will You Be Mine? ❤️</title>
+  <title>Will You Be Mine?</title>
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -14,7 +14,7 @@
     rel="stylesheet"
   />
 
-  <link rel="stylesheet" href="style.css?v=7" />
+  <link rel="stylesheet" href="style.css?v=9" />
 </head>
 <body>
 
@@ -27,20 +27,18 @@
     <span></span>
     <span></span>
   </div>
-  <div id="ambient-hearts" class="ambient-hearts" aria-hidden="true"></div>
   <div id="shooting-stars" aria-hidden="true"></div>
-  <div id="heart-rain" class="heart-rain" aria-hidden="true"></div>
 
   <!-- ============ Fixed UI Controls ============ -->
 
   <!-- Theme Toggle -->
   <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle theme">
-    🌙
+    <span class="control-mark control-mark-theme" aria-hidden="true"></span>
   </button>
 
   <!-- Music Toggle -->
   <button id="music-toggle" class="music-toggle" type="button" aria-label="Toggle music">
-    🎵
+    <span class="control-mark control-mark-music" aria-hidden="true"></span>
   </button>
 
   <!-- Scene Navigation Dots -->
@@ -56,7 +54,7 @@
   <!-- ============ SCENE 1: Cinematic Intro ============ -->
   <section id="intro-scene" class="scene intro-scene">
     <div class="intro-content">
-      <div class="intro-heart">💌</div>
+      <div class="intro-heart" aria-hidden="true"></div>
       <p class="intro-text">A message from my heart...</p>
       <p class="intro-sub">just for you</p>
     </div>
@@ -68,13 +66,13 @@
       <main class="card">
         <div id="question-view">
           <p class="scene-kicker">A little question from the heart</p>
-          <div class="heart-icon" aria-hidden="true">💖</div>
-          <h1>Will you be mine?&nbsp;❤️</h1>
+          <div class="heart-icon" aria-hidden="true"></div>
+          <h1>Will you be mine?</h1>
           <p class="subtitle" id="subtitle"></p>
 
           <div class="buttons">
-            <button id="btn-yes" class="btn btn-yes" type="button">Yes ❤️</button>
-            <button id="btn-no" class="btn btn-no" type="button">No 😢</button>
+            <button id="btn-yes" class="btn btn-yes" type="button">Yes</button>
+            <button id="btn-no" class="btn btn-no" type="button">No</button>
           </div>
 
           <div id="dodge-counter" class="dodge-counter">
@@ -90,7 +88,7 @@
     <div class="success-fullpage" id="success-view">
       <div class="success-glass-card">
         <p class="scene-kicker">The beginning of something beautiful</p>
-        <div class="success-top-heart">❤️</div>
+        <div class="success-top-heart" aria-hidden="true"></div>
         <h2 class="success-heading">You said yes...</h2>
         <div class="success-letter-body">
           <p>I don't know what the future holds, but I know this moment is one I'll never forget.</p>
@@ -98,8 +96,8 @@
           <p>You make my world a little brighter, my days a little happier, and my heart a little fuller.</p>
           <p>So here's to new memories, endless smiles, and a beautiful journey together.</p>
         </div>
-        <p class="success-closing">❤️ I'm really glad it's you.</p>
-        <button class="btn letter-nav-btn" id="go-letter" type="button">Read my letter 💌</button>
+        <p class="success-closing">I'm really glad it's you.</p>
+        <button class="btn letter-nav-btn" id="go-letter" type="button">Read my letter</button>
       </div>
     </div>
   </section>
@@ -113,10 +111,10 @@
         <h2 class="letter-header" id="typewriter-header"></h2>
         <div class="letter-body" id="letter-body">
           <p>From the moment you came into my life, everything changed. The stars seem brighter, the days feel warmer, and my heart beats a little faster every time I think of you.</p>
-          <p>You are my favorite notification, my best conversation, and the reason I smile at my phone like an idiot. 😊</p>
+          <p>You are my favorite notification, my best conversation, and the reason I smile at my phone.</p>
           <p>I still laugh whenever I think about <strong>that time we stayed up way too late talking and completely forgot what time it was</strong>.</p>
           <p>Every moment with you — especially <strong>our long evening conversations</strong> — feels like a scene from my favorite movie.</p>
-          <p>You're not just my love — you're my best friend, my safe place, and my greatest adventure. 🌟</p>
+          <p>You're not just my love — you're my best friend, my safe place, and my greatest adventure.</p>
           <p>Thank you for being you. Thank you for being part of my life . Thank you for making every ordinary day feel extraordinary.</p>
         </div>
         <div class="constellation-note" id="constellation-note">
@@ -139,8 +137,8 @@
           <p class="constellation-status" id="constellation-status" role="status">0 of 4 points found</p>
           <p class="constellation-message" id="constellation-message" aria-hidden="true">The smallest moments with you are the ones I keep.</p>
         </div>
-        <p class="letter-signature">Forever & Always Yours 💕</p>
-        <button class="btn letter-nav-btn" id="go-gallery" type="button">See our memories 📸</button>
+        <p class="letter-signature">Forever and always yours</p>
+        <button class="btn letter-nav-btn" id="go-gallery" type="button">See our memories</button>
       </div>
     </div>
   </section>
@@ -149,7 +147,7 @@
   <section id="gallery-scene" class="scene gallery-scene" style="opacity:0; pointer-events:none;">
     <div class="gallery-container">
       <p class="scene-kicker">Little moments, forever kept</p>
-      <h2 class="gallery-header">Our Memories 📸</h2>
+      <h2 class="gallery-header">Our memories</h2>
       <p class="gallery-sub">Every moment with you is a treasure</p>
       <div class="carousel-wrapper">
         <button class="carousel-btn prev-btn" id="carousel-prev" aria-label="Previous image">❮</button>
@@ -159,7 +157,7 @@
         <button class="carousel-btn next-btn" id="carousel-next" aria-label="Next image">❯</button>
       </div>
       <div class="carousel-dots" id="carousel-dots" aria-label="Choose a memory"></div>
-      <button class="btn gallery-nav-btn" id="go-countdown" type="button">Our countdown ⏳</button>
+      <button class="btn gallery-nav-btn" id="go-countdown" type="button">Our countdown</button>
     </div>
   </section>
 
@@ -167,7 +165,6 @@
   <section id="countdown-scene" class="scene countdown-scene" style="opacity:0; pointer-events:none;">
     <div class="countdown-card">
       <p class="scene-kicker">Since our favorite yes</p>
-      <div class="countdown-emoji">⏳</div>
       <h2 class="countdown-title">Counting Every Second</h2>
       <p class="countdown-sub" id="countdown-label">Until our next special moment...</p>
 
@@ -190,8 +187,8 @@
         </div>
       </div>
 
-      <p class="countdown-note">Since you said YES 💖</p>
-      <button class="btn countdown-nav-btn" id="go-response" type="button">Write me back 💬</button>
+      <p class="countdown-note">Since you said yes</p>
+      <button class="btn countdown-nav-btn" id="go-response" type="button">Write me back</button>
     </div>
   </section>
 
@@ -200,27 +197,26 @@
     <div class="response-card">
       <div id="response-form-view">
         <p class="scene-kicker">Now it is your turn</p>
-        <div class="response-emoji">💬</div>
         <h2 class="response-title">Say Something Back...</h2>
-        <p class="response-sub">I'd love to hear from you 🥰</p>
+        <p class="response-sub">I'd love to hear from you.</p>
         <textarea id="response-input" class="response-input" placeholder="Type your heart out..." rows="4"></textarea>
-        <button class="btn response-submit" id="response-submit" type="button">Send with love 💌</button>
+        <button class="btn response-submit" id="response-submit" type="button">Send with love</button>
       </div>
       <div id="response-thanks" class="response-thanks">
-        <div class="success-emoji">🥺💖</div>
         <h2 class="response-title">Thank you, my love!</h2>
-        <p class="response-sub">Your words mean the world to me ✨</p>
+        <p class="response-sub">Your words mean the world to me.</p>
         <div class="response-message-display" id="response-message-display"></div>
       </div>
       
       <!-- Final Surprise -->
-      <button class="btn-tiny-surprise" id="btn-surprise">One last thing... ❤️</button>
+      <button class="btn-tiny-surprise" id="btn-surprise">One last thing...</button>
       <div class="hidden-surprise" id="hidden-surprise">
-        <p>I just wanted to say... No matter what happens, meeting you was one of the best things that ever happened to me ❤️. Here's to forever. 🥂💖</p>
+        <a class="proposal-link" href="marry-me.html">One more question</a>
+        <p>I just wanted to say: no matter what happens, meeting you was one of the best things that ever happened to me. Here's to everything ahead.</p>
       </div>
     </div>
   </section>
 
-  <script src="script.js?v=8"></script>
+  <script src="script.js?v=9"></script>
 </body>
 </html>
