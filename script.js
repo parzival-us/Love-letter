@@ -559,7 +559,38 @@ $('go-response').addEventListener('click', function () { showScene('response'); 
 })();
 
 // =====================================================================
-//  15. PHOTO GALLERY — Carousel
+//  15. LETTER CONSTELLATION
+// =====================================================================
+(function initConstellation() {
+  const note = $('constellation-note');
+  const status = $('constellation-status');
+  const message = $('constellation-message');
+  const stars = Array.from(document.querySelectorAll('.constellation-star'));
+  let found = 0;
+
+  stars.forEach(function (star) {
+    star.addEventListener('click', function () {
+      if (star.classList.contains('found')) return;
+
+      found++;
+      star.classList.add('found');
+      star.setAttribute('aria-pressed', 'true');
+      star.setAttribute('aria-label', 'Point ' + star.dataset.star + ' revealed');
+      note.classList.add('star-' + star.dataset.star + '-found');
+
+      if (found === stars.length) {
+        note.classList.add('is-complete');
+        message.setAttribute('aria-hidden', 'false');
+        status.textContent = 'All four points found. A note has appeared.';
+      } else {
+        status.textContent = found + ' of ' + stars.length + ' points found';
+      }
+    });
+  });
+})();
+
+// =====================================================================
+//  16. PHOTO GALLERY
 // =====================================================================
 (function initCarousel() {
   const container = $('carousel-container');
@@ -624,7 +655,7 @@ $('go-response').addEventListener('click', function () { showScene('response'); 
 })();
 
 // =====================================================================
-//  16. COUNTDOWN TIMER (time since "Yes")
+//  17. COUNTDOWN TIMER (time since "Yes")
 // =====================================================================
 function startCountdown() {
   function update() {
@@ -645,7 +676,7 @@ function startCountdown() {
 }
 
 // =====================================================================
-//  17. RESPONSE INPUT
+//  18. RESPONSE INPUT
 // =====================================================================
 $('response-submit').addEventListener('click', async function () {
   const msg = $('response-input').value.trim();

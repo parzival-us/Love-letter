@@ -2192,6 +2192,162 @@ h1 {
   font-weight: 700;
 }
 
+.constellation-note {
+  position: relative;
+  display: grid;
+  gap: 0.7rem;
+  margin: 2.1rem 0 1.8rem;
+  padding: 1.15rem 1.2rem 1rem;
+  overflow: hidden;
+  border: 1px solid rgba(255, 224, 235, 0.11);
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.018));
+}
+
+.constellation-note::before {
+  content: '';
+  position: absolute;
+  inset: auto -12% -110px 36%;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: rgba(214, 122, 162, 0.18);
+  filter: blur(34px);
+  pointer-events: none;
+}
+
+.constellation-copy,
+.constellation-sky,
+.constellation-status,
+.constellation-message {
+  position: relative;
+  z-index: 1;
+}
+
+.constellation-label {
+  display: block;
+  color: #f2a5bb;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.constellation-copy p,
+.constellation-status {
+  margin: 0.28rem 0 0;
+  color: rgba(255, 239, 246, 0.64);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.82rem;
+}
+
+.constellation-sky {
+  height: 138px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 232, 241, 0.08);
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 18% 26%, rgba(255, 236, 243, 0.45) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 76% 72%, rgba(255, 236, 243, 0.28) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 83% 20%, rgba(255, 236, 243, 0.22) 0 1px, transparent 1.5px),
+    linear-gradient(135deg, rgba(31, 15, 47, 0.72), rgba(77, 31, 67, 0.45));
+}
+
+.constellation-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.constellation-line {
+  fill: none;
+  stroke: rgba(255, 194, 215, 0.78);
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  stroke-width: 1.15;
+  opacity: 0;
+  transition: stroke-dashoffset 0.65s ease, opacity 0.35s ease;
+}
+
+.constellation-note.star-1-found .constellation-line-1,
+.constellation-note.star-2-found .constellation-line-2,
+.constellation-note.star-3-found .constellation-line-3,
+.constellation-note.star-4-found .constellation-line-4 {
+  stroke-dashoffset: 0;
+  opacity: 1;
+}
+
+.constellation-star {
+  position: absolute;
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+}
+
+.constellation-star::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255, 234, 242, 0.62);
+  box-shadow: 0 0 0 3px rgba(255, 213, 228, 0.06), 0 0 15px rgba(255, 176, 205, 0.28);
+  transform: translate(-50%, -50%);
+  transition: transform 0.35s ease, background 0.35s ease, box-shadow 0.35s ease;
+}
+
+.constellation-star:hover::before,
+.constellation-star:focus-visible::before {
+  transform: translate(-50%, -50%) scale(1.45);
+  background: #fff5f8;
+}
+
+.constellation-star:focus-visible {
+  outline: 1px solid rgba(255, 212, 227, 0.9);
+  outline-offset: 3px;
+}
+
+.constellation-star.found::before {
+  transform: translate(-50%, -50%) scale(1.35);
+  background: #fff4f8;
+  box-shadow: 0 0 0 5px rgba(255, 201, 220, 0.12), 0 0 24px rgba(255, 156, 194, 0.68);
+}
+
+.constellation-star-1 { top: 70%; left: 13.125%; }
+.constellation-star-2 { top: 26.43%; left: 33.125%; }
+.constellation-star-3 { top: 40%; left: 65.625%; }
+.constellation-star-4 { top: 70%; left: 86.875%; }
+
+.constellation-message {
+  max-height: 0;
+  margin: 0;
+  overflow: hidden;
+  color: #ffd6e2;
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-style: italic;
+  line-height: 1.55;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: max-height 0.55s ease, margin 0.55s ease, opacity 0.45s ease 0.12s, transform 0.45s ease 0.12s;
+}
+
+.constellation-note.is-complete .constellation-message {
+  max-height: 80px;
+  margin-top: 0.12rem;
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .gallery-container {
   width: min(92vw, 760px);
   margin: auto;

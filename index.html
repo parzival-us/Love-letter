@@ -14,7 +14,7 @@
     rel="stylesheet"
   />
 
-  <link rel="stylesheet" href="style.css?v=6" />
+  <link rel="stylesheet" href="style.css?v=7" />
 </head>
 <body>
 
@@ -119,6 +119,26 @@
           <p>You're not just my love — you're my best friend, my safe place, and my greatest adventure. 🌟</p>
           <p>Thank you for being you. Thank you for being part of my life . Thank you for making every ordinary day feel extraordinary.</p>
         </div>
+        <div class="constellation-note" id="constellation-note">
+          <div class="constellation-copy">
+            <span class="constellation-label">A small secret</span>
+            <p id="constellation-prompt">Touch each point of light.</p>
+          </div>
+          <div class="constellation-sky" aria-describedby="constellation-prompt constellation-status">
+            <svg class="constellation-lines" viewBox="0 0 320 140" preserveAspectRatio="none" aria-hidden="true">
+              <path class="constellation-line constellation-line-1" pathLength="1" d="M42 98 L106 37" />
+              <path class="constellation-line constellation-line-2" pathLength="1" d="M106 37 L210 56" />
+              <path class="constellation-line constellation-line-3" pathLength="1" d="M210 56 L278 98" />
+              <path class="constellation-line constellation-line-4" pathLength="1" d="M278 98 L42 98" />
+            </svg>
+            <button class="constellation-star constellation-star-1" type="button" data-star="1" aria-label="Reveal point one of four" aria-pressed="false"></button>
+            <button class="constellation-star constellation-star-2" type="button" data-star="2" aria-label="Reveal point two of four" aria-pressed="false"></button>
+            <button class="constellation-star constellation-star-3" type="button" data-star="3" aria-label="Reveal point three of four" aria-pressed="false"></button>
+            <button class="constellation-star constellation-star-4" type="button" data-star="4" aria-label="Reveal point four of four" aria-pressed="false"></button>
+          </div>
+          <p class="constellation-status" id="constellation-status" role="status">0 of 4 points found</p>
+          <p class="constellation-message" id="constellation-message" aria-hidden="true">The smallest moments with you are the ones I keep.</p>
+        </div>
         <p class="letter-signature">Forever & Always Yours 💕</p>
         <button class="btn letter-nav-btn" id="go-gallery" type="button">See our memories 📸</button>
       </div>
@@ -201,6 +221,6 @@
     </div>
   </section>
 
-  <script src="script.js?v=7"></script>
+  <script src="script.js?v=8"></script>
 </body>
 </html>
